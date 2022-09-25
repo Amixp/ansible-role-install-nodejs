@@ -120,7 +120,7 @@
   when:
     - ansible_os_family == 'RedHat'
     - nodejs_major_version_fact == 12
-    - ansible_distribution_major_version < 36
+    - ansible_distribution_major_version > 35
     - ansible_pkg_mgr == 'dnf'
     - ansible_distribution == 'Fedora'
   become: yes
@@ -128,7 +128,7 @@
     file: nodesource-fc{{ ansible_distribution_major_version }}
     name: nodesource
     description: Node.js Packages for Fedora Linux {{ ansible_distribution_major_version }} - $basearch
-    baseurl: '{{ http_or_https }}://rpm.nodesource.com/pub_{{ nodejs_major_version_fact }}.x/fc/{{ ansible_distribution_major_version }}/$basearch'
+    baseurl: '{{ http_or_https }}://rpm.nodesource.com/pub_{{ nodejs_major_version_fact }}.x/fc/35/$basearch'
     gpgkey: '{{ nodejs_repo_rpm_key }}'
     failovermethod: priority
     enabled: yes
@@ -139,7 +139,7 @@
   when:
     - ansible_os_family == 'RedHat'
     - nodejs_major_version_fact == 12
-    - ansible_distribution_major_version < 36
+    - ansible_distribution_major_version > 35
     - ansible_pkg_mgr == 'dnf'
     - ansible_distribution == 'Fedora'
   become: yes
@@ -147,7 +147,7 @@
     file: nodesource-fc{{ ansible_distribution_major_version }}
     name: nodesource-source
     description: Node.js Packages for Fedora Linux {{ ansible_distribution_major_version }} - $basearch - Source
-    baseurl: '{{ http_or_https }}://rpm.nodesource.com/pub_{{ nodejs_major_version_fact }}.x/fc/{{ ansible_distribution_major_version }}/SRPMS'
+    baseurl: '{{ http_or_https }}://rpm.nodesource.com/pub_{{ nodejs_major_version_fact }}.x/fc/35/SRPMS'
     gpgkey: '{{ nodejs_repo_rpm_key }}'
     failovermethod: priority
     enabled: no
