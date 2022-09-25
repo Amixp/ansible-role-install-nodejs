@@ -33,7 +33,7 @@
     - ansible_os_family == 'Debian'
     - ansible_pkg_mgr == 'apt'
   become: yes
-  apt_repository: 
+  apt_repository:
     repo: ppa:chris-lea/node.js
     state: absent
 
@@ -114,6 +114,45 @@
     gpgcheck: yes
     state: present
 
+#---
+
+- name: Add repo NodeJS 4 Fedora for version Node = 12 and Fedora <36
+  when:
+    - ansible_os_family == 'RedHat'
+    - nodejs_major_version_fact == 12
+    - ansible_distribution_major_version < 36
+    - ansible_pkg_mgr == 'dnf'
+    - ansible_distribution == 'Fedora'
+  become: yes
+  yum_repository:
+    file: nodesource-fc{{ ansible_distribution_major_version }}
+    name: nodesource
+    description: Node.js Packages for Fedora Linux {{ ansible_distribution_major_version }} - $basearch
+    baseurl: '{{ http_or_https }}://rpm.nodesource.com/pub_{{ nodejs_major_version_fact }}.x/fc/{{ ansible_distribution_major_version }}/$basearch'
+    gpgkey: '{{ nodejs_repo_rpm_key }}'
+    failovermethod: priority
+    enabled: yes
+    gpgcheck: yes
+    state: present
+
+- name: Add source repo NodeJS 4 Fedora for version Node = 12 and Fedora <36
+  when:
+    - ansible_os_family == 'RedHat'
+    - nodejs_major_version_fact == 12
+    - ansible_distribution_major_version < 36
+    - ansible_pkg_mgr == 'dnf'
+    - ansible_distribution == 'Fedora'
+  become: yes
+  yum_repository:
+    file: nodesource-fc{{ ansible_distribution_major_version }}
+    name: nodesource-source
+    description: Node.js Packages for Fedora Linux {{ ansible_distribution_major_version }} - $basearch - Source
+    baseurl: '{{ http_or_https }}://rpm.nodesource.com/pub_{{ nodejs_major_version_fact }}.x/fc/{{ ansible_distribution_major_version }}/SRPMS'
+    gpgkey: '{{ nodejs_repo_rpm_key }}'
+    failovermethod: priority
+    enabled: no
+    gpgcheck: yes
+    state: present
 #---
 
 - name: Add repo NodeJS 4 Fedora
